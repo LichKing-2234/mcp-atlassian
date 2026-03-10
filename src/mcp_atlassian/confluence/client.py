@@ -145,6 +145,10 @@ class ConfluenceClient:
         if self.config.custom_headers:
             self._apply_custom_headers()
 
+        # Agora OAuth: dynamically inject token on every request
+        from ..utils.agora_oauth import patch_session
+        patch_session(self.confluence._session)
+
         # Import here to avoid circular imports
         from ..preprocessing.confluence import ConfluencePreprocessor
 

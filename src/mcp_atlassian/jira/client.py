@@ -158,6 +158,10 @@ class JiraClient:
         if self.config.custom_headers:
             self._apply_custom_headers()
 
+        # Agora OAuth: dynamically inject token on every request
+        from ..utils.agora_oauth import patch_session
+        patch_session(self.jira._session)
+
         # Initialize the text preprocessor for text processing capabilities
         self.preprocessor = JiraPreprocessor(
             base_url=self.config.url,
